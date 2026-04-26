@@ -1,0 +1,86 @@
+# ─────────────────────────────────────────────────────────────
+# fraud-shield-ml | config/config.yaml
+# Central configuration — all paths and parameters live here
+# ─────────────────────────────────────────────────────────────
+
+project:
+  name: "fraud-shield-ml"
+  version: "1.0.0"
+  description: "End-to-end credit card fraud detection system"
+  author: "Data Science Portfolio Project"
+
+# ── Paths ────────────────────────────────────────────────────
+paths:
+  data_raw:        "data/raw"
+  data_processed:  "data/processed"
+  outputs_figures: "outputs/figures"
+  outputs_models:  "outputs/models"
+  outputs_reports: "outputs/reports"
+  logs:            "logs"
+
+# ── Dataset ──────────────────────────────────────────────────
+dataset:
+  name: "ieee-cis-fraud-detection"
+  transaction_file: "train_transaction.csv"
+  identity_file:    "train_identity.csv"
+  target_column:    "isFraud"
+  transaction_id:   "TransactionID"
+  timestamp_col:    "TransactionDT"
+  reference_date:   "2017-11-30"          # Vesta dataset reference start date
+
+# ── EDA ──────────────────────────────────────────────────────
+eda:
+  top_n_features:     30
+  correlation_threshold: 0.85
+  missing_threshold:  0.50                # drop columns with >50% missing
+
+# ── Imbalance handling ────────────────────────────────────────
+imbalance:
+  random_state: 42
+  smote_k_neighbors: 5
+  adasyn_n_neighbors: 5
+  test_size: 0.20
+
+# ── Models ───────────────────────────────────────────────────
+models:
+  random_state: 42
+  cv_folds: 5
+  scoring: "average_precision"            # PR-AUC for all CV
+  threshold_search_steps: 100
+
+  logistic_regression:
+    max_iter: 1000
+    solver: "saga"
+    class_weight: "balanced"
+
+  xgboost:
+    n_estimators: 500
+    early_stopping_rounds: 50
+    eval_metric: "aucpr"
+    tree_method: "hist"                   # CPU-friendly, works on all OS
+
+  lightgbm:
+    n_estimators: 500
+    early_stopping_rounds: 50
+    metric: "average_precision"
+    verbose: -1
+
+  optuna:
+    n_trials: 50
+    timeout: 600                          # 10 min cap per study
+
+# ── Evaluation ───────────────────────────────────────────────
+evaluation:
+  f2_beta: 2                             # β=2 weights recall 2x over precision
+  primary_metric: "f2_score"
+  secondary_metrics:
+    - "pr_auc"
+    - "roc_auc"
+    - "recall"
+    - "precision"
+
+# ── SHAP / LIME ──────────────────────────────────────────────
+explainability:
+  shap_sample_size: 1000
+  lime_num_features: 15
+  lime_num_samples: 5000

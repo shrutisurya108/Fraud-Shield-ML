@@ -1,0 +1,38 @@
+{
+  "SMOTE": {
+    "pr_auc": 0.3051,
+    "roc_auc": 0.8042,
+    "f2_score": 0.3644,
+    "recall": 0.6086,
+    "precision": 0.1399,
+    "accuracy": 0.8553,
+    "threshold": 0.6138
+  },
+  "ADASYN": {
+    "pr_auc": 0.2876,
+    "roc_auc": 0.8039,
+    "f2_score": 0.3691,
+    "recall": 0.5171,
+    "precision": 0.1721,
+    "accuracy": 0.896,
+    "threshold": 0.7029
+  },
+  "class_weight": {
+    "pr_auc": 0.3078,
+    "roc_auc": 0.8109,
+    "f2_score": 0.3769,
+    "recall": 0.4314,
+    "precision": 0.2504,
+    "accuracy": 0.9349,
+    "threshold": 0.7524
+  },
+  "threshold_tune": {
+    "pr_auc": 0.3215,
+    "roc_auc": 0.8022,
+    "f2_score": 0.3575,
+    "recall": 0.4171,
+    "precision": 0.2274,
+    "accuracy": 0.93,
+    "threshold": 0.0991
+  }
+}
